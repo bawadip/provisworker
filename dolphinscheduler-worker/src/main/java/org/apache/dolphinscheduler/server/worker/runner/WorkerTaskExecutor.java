@@ -67,6 +67,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
 
 public abstract class WorkerTaskExecutor implements Runnable {
 
@@ -200,6 +204,7 @@ public abstract class WorkerTaskExecutor implements Runnable {
     }
 
     protected void beforeExecute() {
+        restCall(taskExecutionContext);
         taskExecutionContext.setCurrentExecutionStatus(TaskExecutionStatus.RUNNING_EXECUTION);
         workerMessageSender.sendMessageWithRetry(taskExecutionContext,
                 ITaskInstanceExecutionEvent.TaskInstanceExecutionEventType.RUNNING);
@@ -347,6 +352,48 @@ public abstract class WorkerTaskExecutor implements Runnable {
 
     public @Nullable AbstractTask getTask() {
         return task;
+    }
+
+    public void restCall(TaskExecutionContext taskExecutionContext){
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer YOUR_ACCESS_TOKEN"); // if required
+
+        //HttpEntity<String> request = new HttpEntity<>("\"Hello\"", headers);
+
+        // Serialize taskExecutionContext to JSON
+        String taskExecutionContextJson = JSONUtils.toJsonString(taskExecutionContext);
+
+        HttpEntity<String> request = new HttpEntity<>(taskExecutionContextJson, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.postForObject("http://localhost:8081/api/greet", request,String.class);
+
+        System.out.println("Response from server: " + result);
+        log.info("Final TaskInstanceDispatchRequest: {}", taskExecutionContext);
+
+//        try{
+//        URL url = new URL("http://localhost:12345//dolphinscheduler/projects/createString");//your url i.e fetch data from .
+//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//        conn.setRequestMethod("GET");
+//        conn.setRequestProperty("Accept", "application/json");
+//        if (conn.getResponseCode() != 200) {
+//            throw new RuntimeException("Failed : HTTP Error code : "
+//                    + conn.getResponseCode());
+//        }
+//        InputStreamReader in = new InputStreamReader(conn.getInputStream());
+//        BufferedReader br = new BufferedReader(in);
+//        String output;
+//        while ((output = br.readLine()) != null) {
+//            System.out.println(output);
+//        }
+//        conn.disconnect();
+//    } catch (Exception e) {
+//            System.out.println("Exception in NetClientGet:- " + e);
+//        }
+
     }
 
 }

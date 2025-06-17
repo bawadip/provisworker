@@ -41,6 +41,12 @@ import org.apache.dolphinscheduler.server.worker.runner.WorkerTaskExecutorHolder
 
 import org.apache.commons.collections4.CollectionUtils;
 
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -51,6 +57,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Import({CommonConfiguration.class,
@@ -81,7 +88,9 @@ public class WorkerServer implements IStoppable {
         Thread.setDefaultUncaughtExceptionHandler(DefaultUncaughtExceptionHandler.getInstance());
         Thread.currentThread().setName(Constants.THREAD_NAME_WORKER_SERVER);
         SpringApplication.run(WorkerServer.class);
+
     }
+
 
     @PostConstruct
     public void run() {

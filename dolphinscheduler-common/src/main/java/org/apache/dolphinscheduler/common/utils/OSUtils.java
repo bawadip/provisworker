@@ -312,7 +312,7 @@ public class OSUtils {
     }
 
     public static boolean isSudoEnable() {
-        return PropertyUtils.getBoolean(Constants.SUDO_ENABLE, true);
+        return PropertyUtils.getBoolean(Constants.SUDO_ENABLE, false);
     }
 
     /**

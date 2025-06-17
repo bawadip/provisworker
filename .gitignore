@@ -42,9 +42,9 @@ test/coverage
 derby.log
 dolphinscheduler-common/src/main/resources/zookeeper.properties
 dolphinscheduler-dao/src/main/resources/dao/data_source.properties
-dolphinscheduler-alert/logs/
-dolphinscheduler-alert/src/main/resources/alert.properties_bak
-dolphinscheduler-alert/src/main/resources/logback.xml
+unused_dolphinscheduler-alert/logs/
+unused_dolphinscheduler-alert/src/main/resources/alert.properties_bak
+unused_dolphinscheduler-alert/src/main/resources/logback.xml
 dolphinscheduler-ui/dist
 dolphinscheduler-ui/node
 dolphinscheduler-common/sql
@@ -52,3 +52,12 @@ dolphinscheduler-common/test
 dolphinscheduler-worker/logs
 dolphinscheduler-master/logs
 dolphinscheduler-api/logs
+
+# Ignore all .log files
+*.log
+
+# Ignore node_modules directory
+node_modules/
+
+# Ignore specific file
+path/to/file.txt

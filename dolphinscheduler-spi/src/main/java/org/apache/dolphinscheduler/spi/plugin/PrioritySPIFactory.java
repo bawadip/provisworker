@@ -17,12 +17,12 @@
 
 package org.apache.dolphinscheduler.spi.plugin;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class PrioritySPIFactory<T extends PrioritySPI> {
